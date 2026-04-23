@@ -4,6 +4,7 @@ import SiteLayout from "@/components/layout/SiteLayout";
 import { Button } from "@/components/ui/button";
 import ProductRail from "@/components/ProductRail";
 import { useRecommended } from "@/store/usePersonalisation";
+import { useMcpDataLayer } from "@/lib/dataLayer";
 
 export default function ThankYou() {
   const [params] = useSearchParams();
@@ -11,6 +12,15 @@ export default function ThankYou() {
   const total = params.get("total") ?? "0.00";
   const email = params.get("email") ?? "you@company.com";
   const recommended = useRecommended();
+
+  useMcpDataLayer({
+    pageName: "Thank You",
+    pageType: "order_confirmation",
+    currency: "USD",
+    orderId: id,
+    total,
+    email,
+  });
 
   return (
     <SiteLayout>

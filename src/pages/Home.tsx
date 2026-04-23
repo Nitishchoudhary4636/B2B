@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { products, categories } from "@/data/products";
 import { useRecentlyViewed, useRecommended, useUser } from "@/store/usePersonalisation";
 import hero from "@/assets/hero-warehouse.jpg";
+import { useMcpDataLayer } from "@/lib/dataLayer";
 
 const quickQuoteSchema = z.object({
   email: z.string().trim().email("Valid work email required").max(255),
@@ -20,6 +21,12 @@ export default function Home() {
   const { user } = useUser();
   const { items: recent } = useRecentlyViewed();
   const recommended = useRecommended();
+
+  useMcpDataLayer({
+    pageName: "Home",
+    pageType: "Home",
+    currency: "USD",
+  });
 
   const [qq, setQq] = useState({ email: "", sku: "", qty: "" });
   const submitQQ = (e: React.FormEvent) => {

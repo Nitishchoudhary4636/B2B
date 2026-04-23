@@ -7,12 +7,20 @@ import { Button } from "@/components/ui/button";
 import { useCart } from "@/store/usePersonalisation";
 import ProductRail from "@/components/ProductRail";
 import { useRecommended } from "@/store/usePersonalisation";
+import { useMcpDataLayer, toMcpCartItem } from "@/lib/dataLayer";
 
 export default function Cart() {
   const { detailed, update, remove, subtotal, count } = useCart();
   const recommended = useRecommended();
   const [promo, setPromo] = useState("");
   const [discount, setDiscount] = useState(0);
+
+  useMcpDataLayer({
+    pageName: "Cart",
+    pageType: "Cart",
+    currency: "USD",
+    items: detailed.map(({ product, qty }) => toMcpCartItem(product, qty)),
+  }, [detailed.length, subtotal, count]);
 
   const applyPromo = (e: React.FormEvent) => {
     e.preventDefault();

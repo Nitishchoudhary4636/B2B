@@ -5,6 +5,7 @@ import { Mail, MapPin, Phone, MessageSquare, Building2, Send } from "lucide-reac
 import SiteLayout from "@/components/layout/SiteLayout";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useMcpDataLayer } from "@/lib/dataLayer";
 
 const contactSchema = z.object({
   firstName: z.string().trim().min(1, "First name required").max(60),
@@ -25,6 +26,12 @@ export default function Contact() {
     consent: true,
   });
   const set = (k: string, v: any) => setForm((p) => ({ ...p, [k]: v }));
+
+  useMcpDataLayer({
+    pageName: "Contact",
+    pageType: "Contact",
+    currency: "USD",
+  });
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();

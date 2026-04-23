@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { getProduct, getRelated } from "@/data/products";
 import { useCart, useWishlist, useRecentlyViewed, useRecommended } from "@/store/usePersonalisation";
 import { cn } from "@/lib/utils";
+import { useMcpDataLayer, toMcpProductItem } from "@/lib/dataLayer";
 
 const quoteSchema = z.object({
   qty: z.coerce.number().int().min(1).max(100000),
@@ -39,6 +40,16 @@ export default function PDP() {
   const wished = has(product.id);
   const related = getRelated(product);
   const effectivePrice = product.bulkPrice && qty >= product.bulkPrice.qty ? product.bulkPrice.price : product.price;
+
+  useMcpDataLayer({
+    pageName: product.name,
+    pageType: "Product",
+    currency: "USD",
+    Item: {
+      ...toMcpProductItem(product),
+      price: effectivePrice,
+    },
+  }, [product.id, product.name, effectivePrice]);
 
   const submitQuote = (e: React.FormEvent) => {
     e.preventDefault();

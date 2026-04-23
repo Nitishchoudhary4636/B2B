@@ -8,6 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { products, categories, brands } from "@/data/products";
+import { useMcpDataLayer } from "@/lib/dataLayer";
 
 export default function PLP() {
   const { category } = useParams();
@@ -35,6 +36,14 @@ export default function PLP() {
 
   const toggleBrand = (b: string) =>
     setBrandFilter((p) => (p.includes(b) ? p.filter((x) => x !== b) : [...p, b]));
+
+  useMcpDataLayer({
+    pageName: cat ? cat.name : q ? `Search: ${q}` : "All Products",
+    pageType: q ? "Search" : "Category",
+    currency: "USD",
+    itemListId: q ? `search:${q}` : cat?.slug ?? "all-products",
+    itemListName: cat?.name ?? (q ? `Search: ${q}` : "All Products"),
+  }, [cat?.slug, cat?.name, q]);
 
   const FiltersInner = (
     <div className="space-y-7">

@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useOrders, useUser } from "@/store/usePersonalisation";
+import { useLocation } from "react-router-dom";
+import { useMcpDataLayer } from "@/lib/dataLayer";
 
 const profileSchema = z.object({
   firstName: z.string().trim().min(1).max(60),
@@ -21,6 +23,13 @@ export default function Profile() {
   const { user, logout, update } = useUser();
   const { orders } = useOrders();
   const nav = useNavigate();
+  const { pathname } = useLocation();
+
+  useMcpDataLayer({
+    pageName: pathname === "/orders" ? "Orders" : "Profile",
+    pageType: pathname === "/orders" ? "orders" : "profile",
+    currency: "USD",
+  });
 
   const [form, setForm] = useState({
     firstName: user?.firstName ?? "",

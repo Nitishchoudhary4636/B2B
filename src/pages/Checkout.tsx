@@ -9,6 +9,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useCart, useOrders, useUser } from "@/store/usePersonalisation";
+import { useMcpDataLayer, toMcpCartItem } from "@/lib/dataLayer";
 
 const checkoutSchema = z.object({
   email: z.string().trim().email("Valid email required").max(255),
@@ -60,6 +61,13 @@ export default function Checkout() {
   const shipCost = { standard: subtotal >= 99 ? 0 : 14.99, expedited: 24.99, overnight: 49.99 }[form.shipMethod];
   const tax = subtotal * 0.0825;
   const total = subtotal + shipCost + tax;
+
+  useMcpDataLayer({
+    pageName: "Checkout",
+    pageType: "view_checkout",
+    currency: "USD",
+    items: detailed.map(({ product, qty }) => toMcpCartItem(product, qty)),
+  }, [detailed.length, subtotal, count, form.shipMethod, form.payMethod]);
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();

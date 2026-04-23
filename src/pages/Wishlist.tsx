@@ -6,11 +6,18 @@ import { Button } from "@/components/ui/button";
 import { useCart, useWishlist } from "@/store/usePersonalisation";
 import ProductRail from "@/components/ProductRail";
 import { useRecommended } from "@/store/usePersonalisation";
+import { useMcpDataLayer } from "@/lib/dataLayer";
 
 export default function Wishlist() {
   const { items, remove } = useWishlist();
   const { add } = useCart();
   const recommended = useRecommended();
+
+  useMcpDataLayer({
+    pageName: "Wishlist",
+    pageType: "wishlist",
+    currency: "USD",
+  });
 
   const moveAllToCart = () => {
     items.forEach((p) => add(p.id, 1));

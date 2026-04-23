@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useUser } from "@/store/usePersonalisation";
+import { useMcpDataLayer } from "@/lib/dataLayer";
 
 const loginSchema = z.object({
   email: z.string().trim().email("Valid email required").max(255),
@@ -30,6 +31,12 @@ export default function Login() {
   const nav = useNavigate();
   const { login } = useUser();
   const [showPw, setShowPw] = useState(false);
+
+  useMcpDataLayer({
+    pageName: "Login",
+    pageType: "login",
+    currency: "USD",
+  });
 
   // Login state
   const [loginForm, setLoginForm] = useState({ email: "", password: "", remember: true });
