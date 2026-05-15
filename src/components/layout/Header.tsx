@@ -28,8 +28,8 @@ export default function Header() {
             <a href="tel:18005550199" className="flex items-center gap-1.5 hover:text-accent">
               <Phone className="h-3.5 w-3.5" /> 1-800-555-0199
             </a>
-            <span className="flex items-center gap-1.5"><Truck className="h-3.5 w-3.5" /> Free shipping over $99</span>
-            <span className="flex items-center gap-1.5"><FileText className="h-3.5 w-3.5" /> Net-30 terms available</span>
+            <span className="flex items-center gap-1.5"><Truck className="h-3.5 w-3.5" /> Free shipping over ₹8,217</span>
+            <span className="flex items-center gap-1.5"><FileText className="h-3.5 w-3.5" /> Bulk Orders • B2B Only</span>
           </div>
           <div className="flex items-center gap-4 ml-auto">
             <Link to="/contact" className="hover:text-accent">Help</Link>

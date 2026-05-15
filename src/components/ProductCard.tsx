@@ -14,9 +14,9 @@ export default function ProductCard({ product, compact }: { product: Product; co
 
   const onAdd = (e: React.MouseEvent) => {
     e.preventDefault();
-    add(product.id, 1);
+    add(product.id, product.minOrder);
     toast.success(`Added ${product.name.split(" ").slice(0, 4).join(" ")}…`, {
-      description: `SKU ${product.sku}`,
+      description: `${product.minOrder} ${product.uom} · SKU ${product.sku}`,
       action: { label: "View cart", onClick: () => (window.location.href = "/cart") },
     });
   };
@@ -42,7 +42,7 @@ export default function ProductCard({ product, compact }: { product: Product; co
         )}
         {product.listPrice && (
           <Badge variant="outline" className="absolute right-3 top-3 bg-card border-success text-success">
-            Save ${(product.listPrice - product.price).toFixed(0)}
+            Min order: {product.minOrder} {product.uom}
           </Badge>
         )}
         <button
@@ -83,19 +83,16 @@ export default function ProductCard({ product, compact }: { product: Product; co
         <div className="mt-auto flex items-end justify-between gap-2 pt-2">
           <div>
             <div className="flex items-baseline gap-2">
-              <span className="font-display text-xl font-semibold text-foreground tabular-nums">${product.price.toFixed(2)}</span>
-              {product.listPrice && (
-                <span className="text-xs text-muted-foreground line-through tabular-nums">${product.listPrice.toFixed(2)}</span>
-              )}
+              <span className="font-display text-xl font-semibold text-foreground tabular-nums">₹{product.price.toFixed(0)}</span>
             </div>
-            <div className="text-[11px] text-muted-foreground">/ {product.uom}</div>
+            <div className="text-[11px] text-muted-foreground">/ {product.uom} (min {product.minOrder})</div>
           </div>
           <span className={product.stock === "low" ? "badge-low" : "badge-stock"}>
             {product.stock === "low" ? "Low stock" : <><Check className="h-3 w-3" /> In stock</>}
           </span>
         </div>
         <Button onClick={onAdd} size="sm" className="mt-2 w-full bg-primary hover:bg-primary-hover">
-          <ShoppingCart className="h-4 w-4 mr-2" /> Add to Cart
+          <ShoppingCart className="h-4 w-4 mr-2" /> Add {product.minOrder} to Cart
         </Button>
       </div>
     </Link>

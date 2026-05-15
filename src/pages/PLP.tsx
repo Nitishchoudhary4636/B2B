@@ -38,9 +38,9 @@ export default function PLP() {
     setBrandFilter((p) => (p.includes(b) ? p.filter((x) => x !== b) : [...p, b]));
 
   useMcpDataLayer({
-    pageName: cat ? cat.name : q ? `Search: ${q}` : "All Products",
+    pageName: cat ? cat.name : q ? `Search: ${q}` : "Bulk Products",
     pageType: q ? "Search" : "Category",
-    currency: "USD",
+    currency: "INR",
     itemListId: q ? `search:${q}` : cat?.slug ?? "all-products",
     itemListName: cat?.name ?? (q ? `Search: ${q}` : "All Products"),
   }, [cat?.slug, cat?.name, q]);

@@ -26,11 +26,11 @@ export default function Footer() {
       <div className="bg-gradient-accent">
         <div className="container-pro flex flex-col items-start justify-between gap-4 py-6 md:flex-row md:items-center">
           <div>
-            <div className="font-display text-xl font-bold text-accent-foreground">Need a custom quote?</div>
-            <div className="text-sm text-accent-foreground/90">Volume pricing, contract terms and dedicated support for your team.</div>
+            <div className="font-display text-xl font-bold text-accent-foreground">Looking for higher bulk discounts?</div>
+            <div className="text-sm text-accent-foreground/90">Request a custom quote for large orders, contract pricing, and dedicated account management.</div>
           </div>
           <Button asChild variant="secondary" size="lg">
-            <Link to="/contact">Talk to a Specialist</Link>
+            <Link to="/contact">Request Quote</Link>
           </Button>
         </div>
       </div>

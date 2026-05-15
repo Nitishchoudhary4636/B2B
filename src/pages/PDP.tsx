@@ -27,7 +27,7 @@ export default function PDP() {
   const { trackView, items: recent } = useRecentlyViewed();
   const recommended = useRecommended(product?.id);
 
-  const [qty, setQty] = useState(1);
+  const [qty, setQty] = useState(product?.minOrder ?? 1);
   const [quoteOpen, setQuoteOpen] = useState(false);
   const [quote, setQuote] = useState({ qty: "50", email: "", notes: "" });
 
@@ -44,7 +44,7 @@ export default function PDP() {
   useMcpDataLayer({
     pageName: product.name,
     pageType: "Product",
-    currency: "USD",
+    currency: "INR",
     Item: {
       ...toMcpProductItem(product),
       price: effectivePrice,
@@ -109,17 +109,18 @@ export default function PDP() {
 
           {/* Price block */}
           <div className="mt-6 rounded-lg border border-border bg-secondary/40 p-5">
+            <div className="mb-2 text-xs font-semibold text-accent uppercase">B2B Wholesale Pricing</div>
             <div className="flex items-baseline gap-3">
-              <span className="font-display text-4xl font-semibold tabular-nums">${effectivePrice.toFixed(2)}</span>
-              {product.listPrice && (
-                <span className="text-base text-muted-foreground line-through tabular-nums">${product.listPrice.toFixed(2)}</span>
-              )}
+              <span className="font-display text-4xl font-semibold tabular-nums">₹{effectivePrice.toFixed(0)}</span>
               <span className="text-sm text-muted-foreground">/ {product.uom}</span>
             </div>
-            {product.bulkPrice && (
+            <div className="mt-2 flex items-center gap-2 text-sm">
+              <span className="bg-primary/10 text-primary font-semibold px-2 py-1 rounded text-xs">Min order: {product.minOrder} {product.uom}</span>
+            </div>
+            {product.bulkPrice && product.bulkPrice.qty > product.minOrder && (
               <div className="mt-2 flex items-center gap-2 text-sm">
                 <Award className="h-4 w-4 text-accent" />
-                <span className="text-foreground">Buy {product.bulkPrice.qty}+ at <strong>${product.bulkPrice.price.toFixed(2)}/{product.uom}</strong> — save {(((product.price - product.bulkPrice.price) / product.price) * 100).toFixed(0)}%</span>
+                <span className="text-foreground">Buy {product.bulkPrice.qty}+ at <strong>₹{product.bulkPrice.price.toFixed(0)}/{product.uom}</strong> — save {(((product.price - product.bulkPrice.price) / product.price) * 100).toFixed(0)}%</span>
               </div>
             )}
             <div className="mt-3 flex items-center gap-2 text-sm">
@@ -133,15 +134,19 @@ export default function PDP() {
           {/* Add to cart row */}
           <div className="mt-5 flex items-stretch gap-3">
             <div className="flex items-center rounded-md border border-input">
-              <button onClick={() => setQty((q) => Math.max(1, q - 1))} className="px-3 h-12 hover:bg-muted" aria-label="Decrease"><Minus className="h-4 w-4" /></button>
+              <button onClick={() => setQty((q) => Math.max(product.minOrder, q - product.minOrder))} className="px-3 h-12 hover:bg-muted" aria-label="Decrease"><Minus className="h-4 w-4" /></button>
               <input
                 type="number"
-                min={1}
+                min={product.minOrder}
                 value={qty}
-                onChange={(e) => setQty(Math.max(1, Number(e.target.value) || 1))}
+                onChange={(e) => {
+                  const val = Number(e.target.value) || product.minOrder;
+                  const remainder = val % product.minOrder;
+                  setQty(val - remainder);
+                }}
                 className="w-16 h-12 bg-transparent text-center text-base font-semibold outline-none tabular-nums"
               />
-              <button onClick={() => setQty((q) => q + 1)} className="px-3 h-12 hover:bg-muted" aria-label="Increase"><Plus className="h-4 w-4" /></button>
+              <button onClick={() => setQty((q) => q + product.minOrder)} className="px-3 h-12 hover:bg-muted" aria-label="Increase"><Plus className="h-4 w-4" /></button>
             </div>
             <Button
               size="lg"
@@ -194,7 +199,7 @@ export default function PDP() {
 
           {/* Trust */}
           <div className="mt-6 grid grid-cols-3 gap-3 border-t border-border pt-5 text-xs">
-            <div className="flex items-start gap-2"><Truck className="h-4 w-4 text-primary shrink-0" /> Free ship over $99</div>
+            <div className="flex items-start gap-2"><Truck className="h-4 w-4 text-primary shrink-0" /> Free ship over ₹8,217</div>
             <div className="flex items-start gap-2"><Shield className="h-4 w-4 text-primary shrink-0" /> 1-yr warranty</div>
             <div className="flex items-start gap-2"><Award className="h-4 w-4 text-primary shrink-0" /> Net-30 available</div>
           </div>

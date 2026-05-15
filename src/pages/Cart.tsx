@@ -18,7 +18,7 @@ export default function Cart() {
   useMcpDataLayer({
     pageName: "Cart",
     pageType: "Cart",
-    currency: "USD",
+    currency: "INR",
     items: detailed.map(({ product, qty }) => toMcpCartItem(product, qty)),
   }, [detailed.length, subtotal, count]);
 
@@ -32,7 +32,7 @@ export default function Cart() {
     }
   };
 
-  const shipping = subtotal >= 99 ? 0 : 14.99;
+  const shipping = subtotal >= 8217 ? 0 : 1245;
   const tax = (subtotal - discount) * 0.0825;
   const total = subtotal - discount + shipping + tax;
 
@@ -40,8 +40,8 @@ export default function Cart() {
     <SiteLayout>
       <div className="border-b border-border bg-secondary/30">
         <div className="container-pro py-6">
-          <h1 className="font-display text-3xl font-semibold">Shopping Cart</h1>
-          <p className="text-sm text-muted-foreground mt-1">{count} {count === 1 ? "item" : "items"} · prices in USD</p>
+          <h1 className="font-display text-3xl font-semibold">Bulk Order Cart</h1>
+          <p className="text-sm text-muted-foreground mt-1">{count} {count === 1 ? "item" : "items"} • B2B Wholesale Pricing • Bulk Minimums Apply</p>
         </div>
       </div>
 
@@ -77,8 +77,8 @@ export default function Cart() {
                       <button onClick={() => update(product.id, qty + 1)} className="px-2 h-9 hover:bg-muted"><Plus className="h-3.5 w-3.5" /></button>
                     </div>
                     <div className="text-right">
-                      <div className="font-display text-lg font-semibold tabular-nums">${lineTotal.toFixed(2)}</div>
-                      <div className="text-xs text-muted-foreground">${product.price.toFixed(2)} ea</div>
+                      <div className="font-display text-lg font-semibold tabular-nums">₹{lineTotal.toFixed(0)}</div>
+                      <div className="text-xs text-muted-foreground">₹{product.price.toFixed(0)} ea</div>
                     </div>
                   </div>
                 </div>
@@ -99,19 +99,19 @@ export default function Cart() {
             </form>
 
             <dl className="space-y-2 text-sm">
-              <div className="flex justify-between"><dt className="text-muted-foreground">Subtotal</dt><dd className="tabular-nums">${subtotal.toFixed(2)}</dd></div>
+              <div className="flex justify-between"><dt className="text-muted-foreground">Subtotal</dt><dd className="tabular-nums">₹{subtotal.toFixed(0)}</dd></div>
               {discount > 0 && (
-                <div className="flex justify-between text-success"><dt>Promo (B2B10)</dt><dd className="tabular-nums">−${discount.toFixed(2)}</dd></div>
+                <div className="flex justify-between text-success"><dt>Promo (B2B10)</dt><dd className="tabular-nums">−₹{discount.toFixed(0)}</dd></div>
               )}
-              <div className="flex justify-between"><dt className="text-muted-foreground">Shipping</dt><dd className="tabular-nums">{shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}</dd></div>
-              <div className="flex justify-between"><dt className="text-muted-foreground">Tax (est.)</dt><dd className="tabular-nums">${tax.toFixed(2)}</dd></div>
+              <div className="flex justify-between"><dt className="text-muted-foreground">Shipping</dt><dd className="tabular-nums">{shipping === 0 ? "FREE" : `₹${shipping.toFixed(0)}`}</dd></div>
+              <div className="flex justify-between"><dt className="text-muted-foreground">Tax (est.)</dt><dd className="tabular-nums">₹{tax.toFixed(0)}</dd></div>
               <div className="border-t border-border pt-3 mt-3 flex justify-between font-display text-xl font-semibold">
-                <dt>Total</dt><dd className="tabular-nums">${total.toFixed(2)}</dd>
+                <dt>Total</dt><dd className="tabular-nums">₹{total.toFixed(0)}</dd>
               </div>
             </dl>
 
-            {subtotal < 99 && (
-              <p className="mt-3 text-xs text-accent">Add ${(99 - subtotal).toFixed(2)} more to unlock free shipping.</p>
+            {subtotal < 8217 && (
+              <p className="mt-3 text-xs text-accent">Add ₹{(8217 - subtotal).toFixed(0)} more to unlock free shipping.</p>
             )}
 
             <Button asChild size="lg" className="mt-5 w-full bg-primary hover:bg-primary-hover">

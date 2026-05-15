@@ -25,7 +25,7 @@ export default function Home() {
   useMcpDataLayer({
     pageName: "Home",
     pageType: "Home",
-    currency: "USD",
+    currency: "INR",
   });
 
   const [qq, setQq] = useState({ email: "", sku: "", qty: "" });
@@ -48,12 +48,12 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-hero" />
         <div className="container-pro relative grid gap-8 py-20 lg:grid-cols-2 lg:py-28">
           <div className="text-primary-foreground animate-fade-up">
-            <div className="eyebrow mb-4 text-accent">{user ? `Welcome back, ${user.firstName}` : "Trusted by 40,000+ businesses"}</div>
+            <div className="eyebrow mb-4 text-accent">{user ? `Welcome back, ${user.firstName}` : "B2B Wholesale Only • Bulk Orders"}</div>
             <h1 className="font-display text-4xl font-bold md:text-5xl lg:text-6xl">
-              The supply partner<br />your operation runs on.
+              Bulk supplies for<br />your entire operation.
             </h1>
             <p className="mt-5 max-w-lg text-lg text-primary-foreground/80">
-              Tools, safety, fasteners and MRO — shipped same-day from 12 distribution centers. Net-30 terms, dedicated reps, zero downtime.
+              Professional-grade tools, safety, fasteners and MRO supplies. Bulk discounts, wholesale pricing, dedicated B2B support. Net-30 terms available.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
@@ -215,7 +215,7 @@ export default function Home() {
                 <img src={p.image} alt={p.name} className="aspect-square w-full object-contain" loading="lazy" />
                 <div className="mt-3 text-xs text-muted-foreground">{p.brand}</div>
                 <div className="line-clamp-2 text-sm font-semibold">{p.name}</div>
-                <div className="mt-2 font-display text-lg font-semibold">${p.price.toFixed(2)}</div>
+                <div className="mt-2 font-display text-lg font-semibold">₹{p.price.toFixed(0)}</div>
               </Link>
             ))}
           </div>

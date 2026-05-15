@@ -58,14 +58,14 @@ export default function Checkout() {
 
   const set = (k: string, v: any) => setForm((p) => ({ ...p, [k]: v }));
 
-  const shipCost = { standard: subtotal >= 99 ? 0 : 14.99, expedited: 24.99, overnight: 49.99 }[form.shipMethod];
+  const shipCost = { standard: subtotal >= 8217 ? 0 : 1245, expedited: 2074, overnight: 4149 }[form.shipMethod];
   const tax = subtotal * 0.0825;
   const total = subtotal + shipCost + tax;
 
   useMcpDataLayer({
     pageName: "Checkout",
     pageType: "view_checkout",
-    currency: "USD",
+    currency: "INR",
     items: detailed.map(({ product, qty }) => toMcpCartItem(product, qty)),
   }, [detailed.length, subtotal, count, form.shipMethod, form.payMethod]);
 
@@ -97,8 +97,8 @@ export default function Checkout() {
     <SiteLayout>
       <div className="border-b border-border bg-secondary/30">
         <div className="container-pro py-6">
-          <h1 className="font-display text-3xl font-semibold">Checkout</h1>
-          <p className="text-sm text-muted-foreground mt-1 flex items-center gap-1.5"><Lock className="h-3.5 w-3.5" /> Secure 256-bit SSL encryption</p>
+          <h1 className="font-display text-3xl font-semibold">B2B Bulk Order Checkout</h1>
+          <p className="text-sm text-muted-foreground mt-1">Wholesale pricing • Bulk orders • Net-30 terms available</p>
         </div>
       </div>
 
@@ -189,16 +189,16 @@ export default function Checkout() {
                   <div className="text-xs text-muted-foreground">{d.product.brand}</div>
                   <div className="text-xs font-medium line-clamp-2">{d.product.name}</div>
                 </div>
-                <div className="text-sm font-semibold tabular-nums">${d.lineTotal.toFixed(2)}</div>
+                <div className="text-sm font-semibold tabular-nums">₹{d.lineTotal.toFixed(0)}</div>
               </div>
             ))}
           </div>
           <dl className="mt-5 space-y-2 border-t border-border pt-4 text-sm">
-            <div className="flex justify-between"><dt className="text-muted-foreground">Subtotal</dt><dd className="tabular-nums">${subtotal.toFixed(2)}</dd></div>
-            <div className="flex justify-between"><dt className="text-muted-foreground">Shipping</dt><dd className="tabular-nums">{shipCost === 0 ? "FREE" : `$${shipCost.toFixed(2)}`}</dd></div>
-            <div className="flex justify-between"><dt className="text-muted-foreground">Tax (est.)</dt><dd className="tabular-nums">${tax.toFixed(2)}</dd></div>
+            <div className="flex justify-between"><dt className="text-muted-foreground">Subtotal</dt><dd className="tabular-nums">₹{subtotal.toFixed(0)}</dd></div>
+            <div className="flex justify-between"><dt className="text-muted-foreground">Shipping</dt><dd className="tabular-nums">{shipCost === 0 ? "FREE" : `₹${shipCost.toFixed(0)}`}</dd></div>
+            <div className="flex justify-between"><dt className="text-muted-foreground">Tax (est.)</dt><dd className="tabular-nums">₹{tax.toFixed(0)}</dd></div>
             <div className="flex justify-between border-t border-border pt-3 mt-3 font-display text-xl font-semibold">
-              <dt>Total</dt><dd className="tabular-nums">${total.toFixed(2)}</dd>
+              <dt>Total</dt><dd className="tabular-nums">₹{total.toFixed(0)}</dd>
             </div>
           </dl>
           <Button type="submit" size="lg" className="mt-5 w-full bg-primary hover:bg-primary-hover">
